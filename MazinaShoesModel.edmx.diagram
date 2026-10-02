@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="90cc64d7d9d048609694d2a0716d9b54" Name="Diagram1">
+        <EntityTypeShape EntityType="MazinaShoesModel.Category" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Manufacturer" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Order" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.OrderItem" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Product" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Role" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Size" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.StockItem" Width="1.5" PointX="10.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.Subcategory" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MazinaShoesModel.User" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="MazinaShoesModel.FK_Subcategory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_Product_Manufacturer" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_Order_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_OrderItem_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_OrderItem_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_OrderItem_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_Product_Subcategory" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_StockItem_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="MazinaShoesModel.FK_StockItem_Size" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
