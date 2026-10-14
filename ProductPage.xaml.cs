@@ -27,20 +27,22 @@ namespace MazinaShoes
             LoadProduct();
             //var currentProduct = MazinaShoesEntities.GetContext().Product.ToList();
            
-            ProductPageListView.ItemsSource = currentProduct;
+            //ProductPageListView.ItemsSource = currentProduct;
             ComboCategory.SelectedIndex = 0;
-            System.Diagnostics.Debug.WriteLine($"Загружено товаров: {currentProduct.Count}");
+           
         }
         private void LoadProduct()
         {
             try
             {
+                // подгруз данных
                 var query = MazinaShoesEntities.GetContext().Product
                     .Include(p => p.Manufacturer)
                     .Include(p => p.Subcategory)
                     .Include(p => p.Subcategory.Category)
                     .AsQueryable();
 
+                // категории м ж д
                 string selectCategory = ComboCategory.SelectedValue?.ToString();
                 if (!string.IsNullOrEmpty(selectCategory) && selectCategory != "Все")
                 {
@@ -51,14 +53,27 @@ namespace MazinaShoes
                                              p.Subcategory.Category.CategoryName == selectCategory);
                     // ^^^ Замени CategoryName на точное имя поля из твоей таблицы Category!
                 }
+                //поиск (изменение 14.10)
+                string searchText = TBSearch.Text?.Trim().ToLower();
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    query=query.Where(p=>p.ProductName !=null && p.ProductName.ToLower().Contains(searchText));
+                }
+                // сортировка (изменение так же 14ю10)
+               if (RButtonUp.IsChecked == true)
+                {
+                    query = query.OrderBy(p => p.Price);
+                }
+               else if (RButtonDown.IsChecked == true)
+                {
+                    query = query.OrderByDescending(p => p.Price);
+                }
+               //запрос к бд
+               currentProduct=query.ToList();
+                //обновление интерфейса
+                ProductPageListView.ItemsSource = currentProduct;
 
-                currentProduct = query.ToList();
-                ProductPageListView.ItemsSource = currentProduct.ToList();
-
-                currentProduct = currentProduct.Where(p => p.ProductName.ToLower().Contains(TBSearch.Text.ToLower())).ToList();
-
-                if (RButtonUp.IsChecked.Value) { ProductPageListView.ItemsSource = currentProduct.OrderBy(p => p.Price).ToList(); }
-                if (RButtonDown.IsChecked.Value) { ProductPageListView.ItemsSource = currentProduct.OrderByDescending(p => p.Price).ToList(); }
+                
             }
             catch (Exception ex)
             {

@@ -31,8 +31,8 @@
             </StackPanel>
         </WrapPanel>
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
-            <RadioButton Content="Сначала дороже" GroupName="Sort" Width="200" FontSize="18" Checked="RButtonUp_Checked" Name="RButtonUp"/>
-            <RadioButton Content="Сначала дешевле" GroupName="Sort" Width="200" FontSize="18" Checked="RButtonDown_Checked" Name="RButtonDown"/>
+            <RadioButton Content="Сначала дешевле" GroupName="Sort" Width="200" FontSize="18" Checked="RButtonUp_Checked" Name="RButtonUp"/>
+            <RadioButton Content="Сначала дороже" GroupName="Sort" Width="200" FontSize="18" Checked="RButtonDown_Checked" Name="RButtonDown"/>
         </StackPanel>
 
         <ListView x:Name="ProductPageListView" Grid.Row="2">

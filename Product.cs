@@ -28,6 +28,11 @@ namespace MazinaShoes
         public string Description { get; set; }
         public string Ingredients { get; set; }
         public decimal Price { get; set; }
+    
+        public virtual Manufacturer Manufacturer { get; set; }
+        public virtual ICollection<OrderItem> OrderItem { get; set; }
+        public virtual Subcategory Subcategory { get; set; }
+        public virtual ICollection<StockItem> StockItem { get; set; }
 
         public string FullPath
         {
@@ -38,11 +43,5 @@ namespace MazinaShoes
                 return $"/img/{Picture}";
             }
         }
-
-
-        public virtual Manufacturer Manufacturer { get; set; }
-        public virtual ICollection<OrderItem> OrderItem { get; set; }
-        public virtual Subcategory Subcategory { get; set; }
-        public virtual ICollection<StockItem> StockItem { get; set; }
     }
 }
