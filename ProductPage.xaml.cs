@@ -21,7 +21,7 @@ namespace MazinaShoes
     public partial class ProductPage : Page
     {
         private List<Product> currentProduct;
-        public ProductPage()
+        public ProductPage(User user)
         {
             InitializeComponent();
             LoadProduct();
@@ -46,15 +46,14 @@ namespace MazinaShoes
                 string selectCategory = ComboCategory.SelectedValue?.ToString();
                 if (!string.IsNullOrEmpty(selectCategory) && selectCategory != "Все")
                 {
-                    // Идем по цепочке: Товар -> Подкатегория -> Категория -> ИмяКатегории
-                    // Обязательно проверяем на null на каждом шаге, чтобы программа не упала!
+                    //Товар -> Подкатегория -> Категория -> ИмяКатегории
+
                     query = query.Where(p => p.Subcategory != null &&
                                              p.Subcategory.Category != null &&
                                              p.Subcategory.Category.CategoryName == selectCategory);
-                    // ^^^ Замени CategoryName на точное имя поля из твоей таблицы Category!
                 }
                 //поиск (изменение 14.10)
-                string searchText = TBSearch.Text?.Trim().ToLower();
+                string searchText = TBSearch.Text?.Trim();
                 if (!string.IsNullOrEmpty(searchText))
                 {
                     query=query.Where(p=>p.ProductName !=null && p.ProductName.ToLower().Contains(searchText));
@@ -100,6 +99,11 @@ namespace MazinaShoes
         private void RButtonDown_Checked(object sender, RoutedEventArgs e)
         {
             LoadProduct();
+        }
+
+        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

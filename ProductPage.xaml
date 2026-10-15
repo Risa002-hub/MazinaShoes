@@ -75,7 +75,6 @@
                             <TextBlock Text="{Binding Price}"/>
                             <TextBlock Text=" рублей"/>
                         </TextBlock>
-                        
 
 
 
