@@ -5,17 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MazinaShoes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Icon="/img/Чудо Обувь.ico" FontFamily="Calibri"
+        Title="Чудо Обувь" Height="650" Width="950" MinHeight="450" MinWidth="700"
+        Icon="/img/Чудо Обувь.ico" FontFamily="Calibri" Background="#FFFFFF"
 >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Image Source="/img/Чудо Обувь.png" Grid.Row="0" HorizontalAlignment="Left"/>
-        <TextBlock Text="Чудо обувь" FontSize="30" Margin="5" HorizontalAlignment="Center"/>
-        <Frame Grid.Row="1" Background="#D2F6E7" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden" ></Frame>
-        <Button Content="Back" Name="BtnBack"  HorizontalAlignment="Right"  Click="BtnBack_Click"></Button>
+        <Grid Background="#D2F6E7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/img/Чудо Обувь.png" Height="50" Margin="5"/>
+                <Button Content="Назад" Name="BtnBack" Width="100" Height="35" FontSize="16" Click="BtnBack_Click"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Text="Чудо обувь" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Name="TBPageTitle" FontSize="14" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock Name="TBUser" Grid.Column="2" FontSize="16" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        </Grid>
+        <Frame Grid.Row="1" Background="#FFFFFF" Name="MainFrame" NavigationUIVisibility="Hidden"
+               Navigated="MainFrame_Navigated" ContentRendered="MainFrame_ContentRendered"/>
     </Grid>
 </Window>

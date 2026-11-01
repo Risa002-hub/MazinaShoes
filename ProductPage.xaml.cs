@@ -20,17 +20,29 @@ namespace MazinaShoes
     /// </summary>
     public partial class ProductPage : Page
     {
-        private List<Product> currentProduct;
-        public ProductPage(User user)
+        public ProductPage()
         {
             InitializeComponent();
-            LoadProduct();
-            //var currentProduct = MazinaShoesEntities.GetContext().Product.ToList();
-           
-            //ProductPageListView.ItemsSource = currentProduct;
+
+            // категории берём из БД, первый пункт сбрасывает фильтр
+            try
+            {
+                var categories = new List<string> { "Все категории" };
+                categories.AddRange(MazinaShoesEntities.GetContext().Category.Select(c => c.CategoryName).ToList());
+                ComboCategory.ItemsSource = categories;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не удалось загрузить категории: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             ComboCategory.SelectedIndex = 0;
-           
+            ComboSort.SelectedIndex = 0;
+
+            BtnCart.Visibility = Manager.IsAuthorized ? Visibility.Visible : Visibility.Collapsed;
+            BtnOrders.Visibility = Manager.IsStaff ? Visibility.Visible : Visibility.Collapsed;
+            BtnAnalytics.Visibility = Manager.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
         }
+
         private void LoadProduct()
         {
             try
@@ -38,41 +50,33 @@ namespace MazinaShoes
                 // подгруз данных
                 var query = MazinaShoesEntities.GetContext().Product
                     .Include(p => p.Manufacturer)
-                    .Include(p => p.Subcategory)
                     .Include(p => p.Subcategory.Category)
                     .AsQueryable();
 
-                // категории м ж д
-                string selectCategory = ComboCategory.SelectedValue?.ToString();
-                if (!string.IsNullOrEmpty(selectCategory) && selectCategory != "Все")
+                // фильтр по категории
+                string selectCategory = ComboCategory.SelectedItem as string;
+                if (!string.IsNullOrEmpty(selectCategory) && selectCategory != "Все категории")
                 {
-                    //Товар -> Подкатегория -> Категория -> ИмяКатегории
+                    query = query.Where(p => p.Subcategory.Category.CategoryName == selectCategory);
+                }
 
-                    query = query.Where(p => p.Subcategory != null &&
-                                             p.Subcategory.Category != null &&
-                                             p.Subcategory.Category.CategoryName == selectCategory);
-                }
-                //поиск (изменение 14.10)
-                string searchText = TBSearch.Text?.Trim();
-                if (!string.IsNullOrEmpty(searchText))
+                // поиск по наименованию и описанию
+                string searchText = TBSearch.Text.Trim().ToLower();
+                if (searchText != "")
                 {
-                    query=query.Where(p=>p.ProductName !=null && p.ProductName.ToLower().Contains(searchText));
+                    query = query.Where(p => p.ProductName.ToLower().Contains(searchText)
+                                          || p.Description.ToLower().Contains(searchText));
                 }
-                // сортировка (изменение так же 14ю10)
-               if (RButtonUp.IsChecked == true)
-                {
-                    query = query.OrderBy(p => p.Price);
-                }
-               else if (RButtonDown.IsChecked == true)
-                {
-                    query = query.OrderByDescending(p => p.Price);
-                }
-               //запрос к бд
-               currentProduct=query.ToList();
-                //обновление интерфейса
-                ProductPageListView.ItemsSource = currentProduct;
 
-                
+                var products = query.ToList();
+
+                // скидка считается в C#, поэтому сортируем уже в памяти, по цене со скидкой
+                if (ComboSort.SelectedIndex == 1)
+                    products = products.OrderBy(p => p.PriceWithDiscount).ToList();
+                else if (ComboSort.SelectedIndex == 2)
+                    products = products.OrderByDescending(p => p.PriceWithDiscount).ToList();
+
+                ProductPageListView.ItemsSource = products;
             }
             catch (Exception ex)
             {
@@ -80,6 +84,19 @@ namespace MazinaShoes
             }
         }
 
+        // при возврате на страницу (после заказа) список перечитывается
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                // сообщение об ошибке нельзя показывать прямо в этот момент: окно ещё перестраивается
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    LoadProduct();
+                    BtnCart.Content = "Корзина (" + Manager.Cart.Count + ")";
+                }));
+            }
+        }
 
         private void TBSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -91,19 +108,42 @@ namespace MazinaShoes
             LoadProduct();
         }
 
-        private void RButtonUp_Checked(object sender, RoutedEventArgs e)
+        private void ComboSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadProduct();
         }
 
-        private void RButtonDown_Checked(object sender, RoutedEventArgs e)
+        private void ProductPageListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoadProduct();
+            var product = ProductPageListView.SelectedItem as Product;
+            if (product == null)
+                return;
+
+            // снимаем выделение, чтобы повторный клик по тому же товару снова сработал
+            ProductPageListView.SelectedItem = null;
+
+            if (!Manager.IsAuthorized)
+            {
+                MessageBox.Show("Заказывать товары могут только авторизованные пользователи. Вернитесь назад и войдите в систему.",
+                    "Требуется вход", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            Manager.MainFrame.Navigate(new ProductDetailsPage(product));
         }
 
-        private void OrderButton_Click(object sender, RoutedEventArgs e)
+        private void BtnCart_Click(object sender, RoutedEventArgs e)
         {
+            Manager.MainFrame.Navigate(new CartPage());
+        }
 
+        private void BtnOrders_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new OrdersPage());
+        }
+
+        private void BtnAnalytics_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AnalyticsPage());
         }
     }
 }

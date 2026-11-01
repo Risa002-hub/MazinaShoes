@@ -23,13 +23,23 @@ namespace MazinaShoes
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new ProductPage());
-            Manager.MainFrame=MainFrame;
+            Manager.MainFrame = MainFrame;
+            MainFrame.Navigate(new LoginPage());
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.GoBack();
+        }
+
+        // Вернулись на страницу входа: это выход из системы, незавершённый заказ сбрасывается
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            if (e.Content is LoginPage)
+            {
+                Manager.CurrentUser = null;
+                Manager.Cart.Clear();
+            }
         }
 
         private void MainFrame_ContentRendered(object sender, EventArgs e)
@@ -38,6 +48,11 @@ namespace MazinaShoes
                 BtnBack.Visibility = Visibility.Visible;
             else
                 BtnBack.Visibility = Visibility.Hidden;
+
+            // заголовок страницы и ФИО вошедшего пользователя
+            TBPageTitle.Text = (MainFrame.Content as Page)?.Title;
+            Title = "Чудо Обувь — " + TBPageTitle.Text;
+            TBUser.Text = Manager.CurrentUser?.FullName ?? "";
         }
     }
 }

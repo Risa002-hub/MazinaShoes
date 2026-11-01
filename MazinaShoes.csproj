@@ -38,9 +38,6 @@
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
-      <HintPath>packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -53,6 +50,8 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Printing" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -65,53 +64,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AutorisationPage.xaml.cs">
-      <DependentUpon>AutorisationPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Category.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Manufacturer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MazinaShoesModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Order.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderItem.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Role.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Size.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="StockItem.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Subcategory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>MazinaShoesModel.tt</DependentUpon>
     </Compile>
-    <Page Include="AutorisationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,16 +128,50 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MazinaShoesModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
+    <Page Include="AnalyticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="AnalyticsPage.xaml.cs">
+      <DependentUpon>AnalyticsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrdersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrderDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProductDetailsPage.xaml.cs">
+      <DependentUpon>ProductDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage.xaml.cs">
+      <DependentUpon>CartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrdersPage.xaml.cs">
+      <DependentUpon>OrdersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderDetailsPage.xaml.cs">
+      <DependentUpon>OrderDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CartLine.cs" />
+    <Compile Include="Partials.cs" />
     <Compile Include="ProductPage.xaml.cs">
       <DependentUpon>ProductPage.xaml</DependentUpon>
     </Compile>
@@ -177,13 +198,6 @@
     </EntityDeploy>
     <None Include="MazinaShoesModel.edmx.diagram">
       <DependentUpon>MazinaShoesModel.edmx</DependentUpon>
-    </None>
-    <EntityDeploy Include="Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -244,16 +258,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MazinaShoesModel.edmx</DependentUpon>
       <LastGenOutput>MazinaShoesModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

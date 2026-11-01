@@ -33,15 +33,5 @@ namespace MazinaShoes
         public virtual ICollection<OrderItem> OrderItem { get; set; }
         public virtual Subcategory Subcategory { get; set; }
         public virtual ICollection<StockItem> StockItem { get; set; }
-
-        public string FullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(Picture))
-                    return "/img/picture.png";
-                return $"/img/{Picture}";
-            }
-        }
     }
 }
